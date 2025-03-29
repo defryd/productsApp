@@ -6,24 +6,25 @@ import { authLogin } from "../../../actions/auth/auth";
 export interface AuthState {
     status: AuthStatus;
     token?: string;
-    user?: User
+    user?: User;
 
-    login(email: string, password: string): Promise<boolean>;
+    login: (email: string, password: string) => Promise<boolean>;
 }
 
-export const useAuthStore = create<AuthState>()( (set, get) => ({
+export const useAuthStore = create<AuthState>()((set, get) => ({
     status: "checking",
     token: undefined,
     user: undefined,
 
     login: async (email: string, password: string) => {
-        const resp  = await authLogin(email, password);
-        if(!resp){
-            set({ status: "unauthenticated", token: undefined, user: undefined });
+        const resp = await authLogin(email, password);
+        if (!resp) {
+            set({ status: 'unauthenticated', token: undefined, user: undefined });
             return false;
         }
+        
         //TODO GUARDAR TOKEN EN STORAGE PERSISTENTE
-        await set({ status: "authenticated", token: resp.token, user: resp.user });
+        set({ status: 'authenticated', token: resp.token, user: resp.user });
         return true;
-    }
+    },
 }))
