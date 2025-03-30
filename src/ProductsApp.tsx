@@ -1,5 +1,5 @@
 // import { NavigationContainer } from '@react-navigation/native'
-import { StackNavigator } from './presentation/navigation/StackNavigatior'
+import { StackNavigator } from './presentation/navigation/StackNavigator'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import { useColorScheme } from 'react-native';

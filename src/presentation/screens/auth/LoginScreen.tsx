@@ -3,15 +3,16 @@ import { Alert, useWindowDimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { MyIcon } from '../../components/ui/MyIcon';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../../navigation/StackNavigatior';
+import { RootStackParams } from '../../navigation/StackNavigator';
 import { useState } from 'react';
 import { useAuthStore } from '../../store/auth/useAuthStore';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> { }
 
 export const LoginScreen = ({ navigation }: Props) => {
-    const { login } = useAuthStore();
 
+    const { login } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -23,7 +24,9 @@ export const LoginScreen = ({ navigation }: Props) => {
         if (form.email.length === 0 || form.password.length == 0) {
             return;
         }
+        setIsLoading(true);
         const wasSuccessful = await login(form.email, form.password);
+        setIsLoading(false);
 
         if (wasSuccessful) return;
 
@@ -66,6 +69,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                     {/* button */}
                     <Layout>
                         <Button
+                        disabled={isLoading}
                             accessoryRight={<MyIcon name="arrow-forward-outline" white />}
                             onPress={onLogin}
                         // appearance='ghost'

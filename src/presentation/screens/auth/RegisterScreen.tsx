@@ -3,7 +3,7 @@ import { useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { MyIcon } from '../../components/ui/MyIcon';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../../navigation/StackNavigatior';
+import { RootStackParams } from '../../navigation/StackNavigator';
 
 interface Props extends StackScreenProps<RootStackParams, 'RegisterScreen'> { };
 
