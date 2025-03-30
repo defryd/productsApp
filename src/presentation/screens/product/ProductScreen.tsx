@@ -21,6 +21,7 @@ import { MyIcon } from '../../components/ui/MyIcon';
 
 import { ProductImages } from '../../components/products/ProductImages';
 import { genders, sizes } from '../../../config/constants/constants';
+import { CameraAdapter } from '../../../config/adapters/camera-adapter';
 
 interface Props extends StackScreenProps<RootStackParams, 'ProductScreen'> { }
 
@@ -35,14 +36,14 @@ export const ProductScreen = ({ route }: Props) => {
     });
 
     const mutation = useMutation({
-        mutationFn: (data: Product) =>
-            updateCreateProduct({ ...data, id: productIdRef.current }),
+        mutationFn: (data: Product) => updateCreateProduct({ ...data, id: productIdRef.current }),
         onSuccess(data: Product) {
             productIdRef.current = data.id; // creación
 
             queryClient.invalidateQueries({ queryKey: ['products', 'infinite'] });
             queryClient.invalidateQueries({ queryKey: ['product', data.id] });
             // queryClient.setQueryData(['product',  data.id ], data);
+            // Alert.alert('Producto actualizado', 'El producto se ha actualizado correctamente');
         },
     });
 
@@ -51,9 +52,21 @@ export const ProductScreen = ({ route }: Props) => {
     }
 
     return (
-        <Formik initialValues={product} onSubmit={mutation.mutate}>
+        <Formik
+            initialValues={product}
+            onSubmit={mutation.mutate}
+        >
             {({ handleChange, handleSubmit, values, errors, setFieldValue }) => (
-                <MainLayout title={values.title} subTitle={`Precio: ${values.price}`}>
+                <MainLayout
+                    title={values.title}
+                    subTitle={`Precio: ${values.price}`}
+                    rightAction={ async() => {
+                        const photos = await CameraAdapter.getPicturesFromLibrary();
+                        console.log('photos', photos);
+                        setFieldValue('images', [...values.images, ...photos])
+                      }}
+                      rightActionIcon="image-outline"
+                >
                     <ScrollView style={{ flex: 1 }}>
                         {/* Imágenes de el producto */}
                         <Layout

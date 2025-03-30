@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { Layout, List } from '@ui-kitten/components';
 import { useQueryClient } from '@tanstack/react-query';
-
 import { Product } from '../../../domain/entities/product';
 import { ProductCard } from './ProductCard';
 
