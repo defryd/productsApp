@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             set({ status: 'unauthenticated', token: undefined, user: undefined });
             return false;
         }
-        
+
         //TODO GUARDAR TOKEN EN STORAGE PERSISTENTE
         set({ status: 'authenticated', token: resp.token, user: resp.user });
         return true;

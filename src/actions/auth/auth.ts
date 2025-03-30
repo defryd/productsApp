@@ -19,6 +19,9 @@ const returnUserToken = (data: AuthResponse) => {
 
 export const authLogin = async (email: string, password: string) => {
     email = email.toLowerCase();
+    // console.log('datos', email, password );
+    // console.log('tesloApi', tesloApi.defaults.baseURL );
+    
     try {
         const { data } = await tesloApi.post<AuthResponse>('/auth/login', {
             email,
